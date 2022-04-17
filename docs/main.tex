@@ -111,21 +111,32 @@ Fischer et al. proposed a two-stream VGG network that takes the left and right a
 \subsection*{Hybrid Two-step Training}
 Deng and Zhu proposed a two-step training architecture, where a head CNN and eye CNN are independently trained and then together transformed with a "gaze transform layer" \cite{deng_monocular_2017}. The proposed model does not suffer from head-gaze correlation overfitting which makes it possible to use existing datasets for training. The solution achieves an error of 5.6\degree when trained with a large dataset, achieving state-of-the-art gaze tracking accuracy. 
 
-
-
 \subsection{Datasets}
 \label{state-art-datasets}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth,height=4cm]{figures/datasets.png}
+    \caption{Samples from different datasets. Recovered from \cite{GazeCapture}, \cite{GazeEstimationInTheWild}, \cite{CAVE_0324} and \cite{Zhang2020ETHXGaze} respectively. }
+    \label{Datasets}
+ \end{figure*}
+
 Until recently, datasets for Gaze-Estimation models training were built manually by taking pictures of different users' faces by placing their head firmly in a stand. Training models require multiple high-quality images, which makes the previous methods slow and not ideal.
 To improve the previous methods' problem, multiple data sets containing images for eye tracking have been compiled with crowd founding to train new models.
+\hyperref[Datasets]{Fig. 3} represents an overview of different state-of-the-art datasets.
 
 \subsection*{GazeCapture}
-Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 subjects from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
 
+
+
+Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 subjects from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
+Additionally, the authors provide pre-trained models utilizing the dataset available as open source (\url{https://github.com/CSAILVision/GazeCapture}).
 \subsection*{MMPIIGaze}
 Another state-of-the-art dataset that has been widely used is the MMPIIGaze dataset created by Zhang et al. \cite{GazeEstimationInTheWild}
 
 
-\subsection*{Columbia Eye Gaze}
+\subsection*{Columbia Eye Gaze / CAVE}
 
 \subsection*{TabletGaze}
 
