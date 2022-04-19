@@ -1,151 +1,271 @@
-\documentclass[letterpaper, 10 pt, conference]{ieeeconf}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Thesis LaTeX Template Modified by Ng for the Tesina Course
+% Version 1.2 (05/24/2018)
+% Note:
+% Make sure to include the Thesis.cls  file in the folder
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt, a4paper, oneside]{Thesis} % paper size redifined in Thesis.cls
+\usepackage[nodayofweek]{datetime}
+\usepackage{float}
+\usepackage{array}
+\usepackage{wrapfig}
+\usepackage{pdfpages}
 \usepackage[utf8]{inputenc}
 \usepackage{csquotes}
-\usepackage[spanish]{babel}
-\usepackage{hyperref}
-\usepackage{graphicx}
+\usepackage[english]{babel}
 \usepackage{biblatex}
-\usepackage{microtype}
-\usepackage{gensymb}
+\usepackage{xurl}
+
 \addbibresource{references.bib}
 
-\IEEEoverridecommandlockouts
-\overrideIEEEmargins
-
-\def\equationautorefname~#1\null{(#1)\null}
-
-\title{\LARGE \bf
-Gaze-Tracking with Convolutional Neural Networks 
-}
-
-\author{Alberto Castañeda Arana %
-}
-
-
+\hypersetup{urlcolor=blue, colorlinks=true}
+\title{\ttitle}
+\thesistitle{Thesis - Gaze-Tracking} 
 \begin{document}
+\frontmatter
+\setstretch{1.3}
 
-\maketitle
-\tableofcontents
+\fancyhead{}
+\rhead{\thepage}
+\lhead{}
 
-\thispagestyle{empty}
-\pagestyle{empty}
+\pagestyle{fancy}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
+% PDF meta-data
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\subjectname}
+%\hypersetup{pdfauthor=\authornames}
+\hypersetup{pdfkeywords=\keywordnames}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
 
-\section{State-of-the-art}
+\begin{titlepage}
+\begin{center}
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth,height=5cm]{figures/gaze_estimation_setup.png}
-    \caption{Overview of Gaze-Estimation setups. Recovered from \cite{survey_automatic_gaze_ghosh}}
-    \label{gaze_estimation_setup}
- \end{figure*}
+\textsc{\Large \univname}\\
+\textsc{\Large \facname}\\
+\textsc{\Large \schoolname}\\[1cm]
+\includegraphics[scale=.3]{img/logo.png} \\
+\centering{\Large \bfseries Gaze-Tracking with Convolutional Neural Networks 
+}\\[0.5cm]
 
-\subsection{Gaze-Tracking}
+\large by\\[0.5cm]
 
-Applications of estimating the human eye gaze direction, or Gaze-Tracking, can be found in multiple study areas such as health care \cite{EyeTrackMedical}, virtual-reality \cite{EyeVR}, and human-computer interaction \cite{Gaze-Controlled-Web}. Devices that utilize gaze-tracking methods for human-computer interaction are often referred to as Eye Trackers. While there is commercial use for Eye Trackers, they have not reached the accuracy needed to allow users with fine-motor disabilities to interact with a computer by using their own eyes as a replacement for a traditional mouse device.
+\begin{minipage}{0.4\textwidth}
+\begin{center} \large
+\authors{Alberto Castañeda Arana}
+\large{\href{mailto:albertcastaned@gmail.com?subject=Gaze-Tracking Thesis}{\authornames}} 
+\\[0.5cm] 
+\end{center}
+\end{minipage}\\[0.5cm]
 
-Conventional methods for gaze-tracking require additional devices such as infrared light in order to make the gaze estimations. However, these methods are prone to error in poor light conditions.
+\large Proyecto Integrador para el Desarrollo de Soluciones Empresariales \\ \textit{\degreename}\\[0.8cm]
 
-Research in computer vision and Deep Learning have allowed improvement in Gaze-Tracking systems by allowing better predictions while also being less intrusive for users with no additional devices required.
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{lll}
+\multicolumn{1}{r}{Asesor:} & Dr. Jose Antonio Cantoral Ceballos \\
+\end{tabular}
+\end{center}
+\end{table}
 
+\vspace{3cm}
+Santiago de Querétaro, Querétaro, México \\
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.3]{figures/methods_classification.png}
-    \caption{Overview classification of Gaze-Tracking methods }
-    \label{GEClassification}
- \end{figure}
+{\large \longdate{15/06/2022}}\\[1.5cm]
 
+\vfill
+\end{center}
 
-Gaze-Tracking with computer vision can be achieved with two different type of methods: Model-based methods and Appearance-based methods. These methods will be described in the following sections.
-
-\subsection{Model-based methods}
-Model-based methods, or sometimes referred to as feature-based methods, use the geometric form of the eyes to make the eye gaze prediction.
-As seen on \hyperref[GEClassification]{Fig. 1}, these can be interpreted as 3D models. Model-based 3D Gaze-Estimation
-methods use 3D eyeball models and estimate the gaze direction using geometric eye features, such as the iris center and the eye corners \cite{general_theory_remote_gaze_3d_model}.
-
-Furthermore, most these methods require an infrared light source (IR) in order to create a refraction in the human eye which is then used to calculate the eye gaze direction by comparing the refraction position with the pupil position. The main drawback of model-based methods is that they can have a lower accuracy with low-resolution images and poor-condition lighting environments. Additionally, all of them have limited working distance.
-
-Some state-of-the-art commercial products that have adapted these techniques are Tobii Eye Tracker (\url{https://www.tobii.com/}), Eye Tribe (\url{https://imotions.com/hardware/the-eye-tribe-tracker/}) and EyeSee (\url{https://eyesee-research.com/}). 
-While these products allow very accurate predictions for the Eye Tracking, they suffer from the previously mentioned model based methods disadvantages while also requiring users to purchase additional expensive equipment. Most Eye-Tracking products also require wearable glasses peripherals that can be intrusive for daily usage. 
-
-With the increase of interest and usage of Gaze-Tracking, there is also a growing need for new Eye-Trackers that are cheap and easy to use.
-Gaze-Tracking methods that utilize built-in or external cameras included in almost every computer can be used as a way of making eye tracking more accessible. Appearance-based approaches are beginning to be researched to achieve the previous goal.
-
-\subsection{Appearance-based methods}
-Recently, investigations for appearance based methods with Deep Learning has surfaced which have demonstrated high accuracy while only using on-the-shelf web cameras to capture the human eye appearance hence the method name.
-
-Conventional appearance-based methods used regression in order to learn the mappings from appearance to human gaze. However, since these methods use the appearance of the eye, the main challenges are head motion and subject differences that alter the eye appearance on use.
-
-To overcome the previous challenges, appearance-based Gaze-Estimation with Deep Learning has become a trend in research. Deep Learning based methods can extract high-level abstract gaze features from high-dimensional images, making them more robust and accurate than conventional methods. The mapping between eye-images and gaze direction can be achieved with various regression techniques, such as neural networks, local interpolation, or Gaussian process regression. Convolutional Neural Networks (CNNs) models are commonly used in computer vision tasks for its high accuracy and performance. 
-Current state-of-the-art solutions have begun to adopt CNN based architectures, adopting the advantages of appearance-based methods and achieving high accuracy. CNN models used for Gaze-Tracking learn from RGB images which are preprocessed to segment the human eyes in training.
-
-Some of the drawbacks that appearance-based methods have been that they require more images for training than model-based methods, which are not easily retrieved. Additionally, since most appearance-based methods require deep-learning architectures such as Convolutional Neural Networks, they require higher computational power for training. Several works apply CNNs for gaze estimation, as they have shown to outperform traditional model-based approaches \cite{GazeEstimationInTheWild}.
-
-\subsection{Related Work}
+\end{titlepage}
 
 
-\subsection*{Multimodal Convolutional Neural Network}
-Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
+\clearpage % Start a new page
 
-\subsection*{Spatial Weight CNN}
-After the previous proposal, Zhang et al. proposed a spatial weights CNN based on the AlexNet architecture \cite{alex_net} that takes the full face image as input \cite{written_all_over_your_face}. The spatial weights classify the importance of different facial areas in order to perform the Gaze-Estimation. This mechanism includes three additional 1 x 1 convolutional layer followed by a ReLU activation. Compared to other approaches only use eye regions, this method was demonstrated to be more robust against appearance variation such as head pose as well as illumination. The results achieved an error of ~4.8-6.0\degree.
+% %----------------------------------------------------------------------------------------
+% %	QUOTATION PAGE
+% %----------------------------------------------------------------------------------------
 
-\subsection*{iTracker}
-Kannan et al. proposed a CNN architecture for an iOS based Gaze-Tracking system called iTracker \cite{iTracker}. The model's large neural network was constructed with multiple smaller neural networks, with four total inputs: a right eye image, a left eye image, a face image, and a face-grid. The face-grid is a 25x25 binary grid that indicates where the user face is placed relatively to the camera view. 
+% \pagestyle{empty} % No headers or footers for the following pages%
+% \null\vfill
 
-This model achieved 1.66 centimeter error with no calibration needed. The GazeCapture dataset which is described in \hyperref[state-art-datasets]{Section 1-E} was used to train this model.
+% \begin{center}
+% \textit{"the state is a plurality which should be united and made into a community by education"}
+% \end{center}
 
-While achieving good results, this model is biased with mobile usage which makes it unusable for laptop or computer desktop usage. Additionally, the authors describe there being room for improvement for better segmentation of eyes. However, by adjusting the model's face-grid dimensions to simulate webcam dimensions and with a different dataset, the model could potentially be used for desktop/laptop use.
-
-\subsection*{Geometric \& Texture-based Networks}
-Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye, similarly to iTracker \cite{deng_monocular_2017}.
-A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22\degree. Additionally, the authors emphasize on the importance of choosing
-different activation functions for different results by comparing the model outcome with ReLU vs Swish, where the former achieved better performance for geometric network while Swish showed better performance on the rest.
-
-\subsection*{RT-GENE}
-Fischer et al. proposed a two-stream VGG network that takes the left and right as inputs \cite{fischer_rt-gene_2018}. This approach considers large camera-to-user distances and high variations in head pose found in natural environments. This approach allows automatic annotation of subject's ground truth gaze and head pose regardless of large camera-user distances, achieving an error of 7.7\degree. However, the approach setup requires additional devices such as mobile eye-tracking glasses (Kinect v2 RGB-D camera).
-
-\subsection*{Hybrid Two-step Training}
-Deng and Zhu proposed a two-step training architecture, where a head CNN and eye CNN are independently trained and then together transformed with a "gaze transform layer" \cite{deng_monocular_2017}. The proposed model does not suffer from head-gaze correlation overfitting which makes it possible to use existing datasets for training. The solution achieves an error of 5.6\degree when trained with a large dataset, achieving state-of-the-art gaze tracking accuracy. 
-
-\subsection{Datasets}
-\label{state-art-datasets}
+% \begin{flushright}
+% The Politics, Aristotle
+% \end{flushright}
 
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth,height=4cm]{figures/datasets.png}
-    \caption{Samples from different datasets. Recovered from \cite{GazeCapture}, \cite{GazeEstimationInTheWild}, \cite{CAVE_0324} and \cite{Zhang2020ETHXGaze} respectively. }
-    \label{Datasets}
- \end{figure*}
-
-Until recently, datasets for Gaze-Estimation models training were built manually by taking pictures of different users' faces by placing their head firmly in a stand. Training models require multiple high-quality images, which makes the previous methods slow and not ideal.
-To improve the previous methods' problem, multiple data sets containing images for eye tracking have been compiled with crowd founding to train new models.
-\hyperref[Datasets]{Fig. 3} represents an overview of different state-of-the-art datasets.
-
-\subsection*{GazeCapture}
+% \begin{center}
+% \textit{"Nobody phrases it this way, but I think that artificial intelligence is almost a humanities discipline, ... It's really an attempt to understand human intelligence and human cognition."} 
+% \end{center}
+% \begin{flushright}
+% Sebastian Thrun 
+% \end{flushright}
 
 
+% \vfill\vfill\vfill\vfill\vfill\vfill\null 
 
-Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 subjects from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
-Additionally, the authors provide pre-trained models utilizing the dataset available as open source (\url{https://github.com/CSAILVision/GazeCapture}).
-\subsection*{MMPIIGaze}
-Another state-of-the-art dataset that has been widely used is the MMPIIGaze dataset created by Zhang et al. \cite{GazeEstimationInTheWild}
+% \clearpage
 
 
-\subsection*{Columbia Eye Gaze / CAVE}
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
 
-\subsection*{TabletGaze}
+% \setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
 
-\section{Evaluation}
+% \acknowledgements{\addtocontents{toc}{\vspace{1em}}  %modificame tus agradecimientos van aquí solo si quieres sino puedes borrar la sección
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Writing this thesis took 5 years of hard work. The effort invested is not entirely my own. Several people contributed to keep me going and helped me look at things differently whenever I got stuck. Here I name the most representative ones.\\ 
+ 
+% ...\\
+% \\
 
+% etc \\
+% ...\\
+
+% Finally I would like to thank my fellow grad students and members of the train community (Vic, Chip, Effren, Rich, Julious, Peter, among others) as well as my colleagues in Queretaro for all the academic discussions. Thank you for being honest and patient with me and my constant failures to explain what I was doing. The feedback provided by our talks help me realize what information I was overlooking in my explanations. Making clearer explanations was fundamental to communicating my ideas and writing this book.\\
+
+
+
+%  This is some test I am using overleaf Rich Text format to write this
+ 
+% }
+% \clearpage % Start a new page
+
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+% \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
+
+ 
+
+% \abstract{\addtocontents{toc}{\vspace{1em}} %modificame 
+% The field of Artificial Intelligence in Education creates intelligent tutoring systems that push the technological boundary of e-learning. The field distinguishes itself from others for its hard focus on using Artificial Intelligence to imbue regular software with smart and adaptive behaviours. Sharing computational representation of students known as student models, has long been a problem of interest for this community. The interest comes from the fact that sharing these models reduces the cost and time invested in the development of new tools. Current systems for sharing student models can share traditional student models, but can't share student models that have machine learning components. In this thesis I propose two ways of solving this problem. The first is a multi-agent architecture for decoupled student models that enables machine learning components to: a) train each model with independent data, b) choose what data is more reliable for each student model, and c) organize and learn through time which is the more appropriate model to work with each tutor. The architecture uses a fragmented user model approach and it can share student models that have machine learning components. The second solution is set of metrics that help researchers share models without systems or formal mechanisms, i.e., manually. This second approach is based on an analysis of the portability of current state of the art student models. Both the architecture and the portability analysis present smaller contributions such as the protocols and self-organizing mechanisms used in the architecture, and the student model extraction and implementation guidelines for portability from the analysis. At the end of this book I present a discussion of the importance of sharing intelligent components between programs and elaborate in why this work is a stepping stone towards smarter better ways of developing intelligent tools that imbue traditional software with intelligence.\\
+
+% \clearpage
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\pagestyle{fancy}
+
+%\lhead{\emph{List of Figures}} % Set the left side page header to "List of Figures"
+\listoffigures % Write out the List of Figures
+
+%\lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
+%\listoftables % Write out the List of Tables
+
+\lhead{\emph{Contents}} % Set the left side page header to "Contents"
+\tableofcontents % Write out the Table of Contents
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS
+%----------------------------------------------------------------------------------------
+
+% \clearpage
+% \setstretch{1.5}
+
+% \lhead{\emph{Acrónimos}} % Set the left side page header to "Abbreviations"
+% \listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
+% {
+% \textbf{AIED} & \textbf{A}rtificial \textbf{I}telligence \textbf{I}n \textbf{E}ducation\\ %modificame pon tus acrónimos o borra la sección
+% \textbf{EDM} & \textbf{E}ducation \textbf{D}ata \textbf{M}ining \\
+% \textbf{EM} & \textbf{E}xpert \textbf{M}odule\\
+% \textbf{FIPA} & \textbf{F}oundation  for \textbf{I}ntelligent \textbf{P}hysical \textbf{A}gents\\
+% \textbf{GUMO} & \textbf{G}eneral \textbf{U}ser \textbf{M}odel \textbf{O}ntology\\
+% \textbf{ILE} & \textbf{I}ntelligent \textbf{L}earning \textbf{E}nvironment\\
+% \textbf{ITS} & \textbf{I}ntelligent \textbf{T}utoring \textbf{S}ystem\\
+% \textbf{JADE} & \textbf{J}ava \textbf{A}gent \textbf{D}evelopment \textbf{E}nvironment\\
+% \textbf{PM} & \textbf{P}edagogical \textbf{M}odule\\
+% \textbf{SM} & \textbf{S}tudent \textbf{M}odel\\
+% \textbf{RS} & \textbf{R}ecommender \textbf{S}ystems\\
+% \textbf{UM} & \textbf{U}ser \textbf{M}odel\\
+% \textbf{UMUAI} & \textbf{U}ser \textbf{M}odeling and \textbf{U}ser-\textbf{A}dapted \textbf{I}nteraction\\
+% }
+
+%----------------------------------------------------------------------------------------
+%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
+%----------------------------------------------------------------------------------------
+
+%\clearpage
+
+%\lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
+
+%\listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
+%{
+%Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
+%}
+
+%----------------------------------------------------------------------------------------
+%	SYMBOLS
+%----------------------------------------------------------------------------------------
+
+%\clearpage
+
+%\lhead{\emph{Variables and Symbols}} % Set the left side page header to "Symbols"
+
+%\listofnomenclature{lll} % Include a list of Symbols (a three column table)
+%{
+%$a$ & distance & m \\
+%$P$ & power & W (Js$^{-1}$) \\
+% Symbol & Name & Unit \\
+
+%& & \\ % Gap to separate the Roman symbols from the Greek
+
+%$\omega$ & angular frequency & rads$^{-1}$ \\
+% Symbol & Name & Unit \\
+%}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin page numbering
+
+\pagestyle{fancy}
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+\input{capitulos.tex}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\addtocontents{toc}{\vspace{2em}}
+
+\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+
+
+\input{apendices}  %modificame si not tienens apendices comenta esta linea
+
+\addtocontents{toc}{\vspace{2em}}
+
+\backmatter
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\label{References}
+
+\lhead{\emph{References}}
 \printbibliography[title={References}]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \end{document}
+
