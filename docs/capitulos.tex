@@ -60,7 +60,7 @@ Some of the drawbacks that appearance-based methods have been that they require 
 Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
 
 \subsection{Spatial Weight CNN}
-After the previous proposal, Zhang et al. proposed a spatial weights CNN based on the AlexNet architecture \cite{alex_net} that takes the full face image as input \cite{written_all_over_your_face}. The spatial weights classify the importance of different facial areas in order to perform the Gaze-Estimation. This mechanism includes three additional 1 x 1 convolutional layer followed by a ReLU activation. Compared to other approaches only use eye regions, this method was demonstrated to be more robust against appearance variation such as head pose as well as illumination. The results achieved an error of ~4.8-6.0\degree.
+After the previous proposal, Zhang et al. proposed a spatial weights CNN based on the AlexNet architecture \cite{alex_net} that takes the full face image as input \cite{written_all_over_your_face}. The spatial weights classify the importance of different facial areas in order to perform the Gaze-Estimation. This mechanism includes three additional 1 x 1 convolutional layer followed by a ReLU activation. Compared to other approaches only use eye regions, this method was demonstrated to be more robust against appearance variation such as head pose as well as illumination. The results achieved an error of ~4.8-6.0$^{\circ}$.
 
 \subsection{iTracker}
 Kannan et al. proposed a CNN architecture for an iOS based Gaze-Tracking system called iTracker \cite{iTracker}. The model's large neural network was constructed with multiple smaller neural networks, with four total inputs: a right eye image, a left eye image, a face image, and a face-grid. The face-grid is a 25x25 binary grid that indicates where the user face is placed relatively to the camera view. 
@@ -71,14 +71,14 @@ While achieving good results, this model is biased with mobile usage which makes
 
 \subsection{Geometric \& Texture-based Networks}
 Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye, similarly to iTracker \cite{deng_monocular_2017}.
-A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22\degree. Additionally, the authors emphasize on the importance of choosing
+A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22$^{\circ}$. Additionally, the authors emphasize on the importance of choosing
 different activation functions for different results by comparing the model outcome with ReLU vs Swish, where the former achieved better performance for geometric network while Swish showed better performance on the rest.
 
 \subsection{RT-GENE}
-Fischer et al. proposed a two-stream VGG network that takes the left and right as inputs \cite{fischer_rt-gene_2018}. This approach considers large camera-to-user distances and high variations in head pose found in natural environments. This approach allows automatic annotation of subject's ground truth gaze and head pose regardless of large camera-user distances, achieving an error of 7.7\degree. However, the approach setup requires additional devices such as mobile eye-tracking glasses (Kinect v2 RGB-D camera).
+Fischer et al. proposed a two-stream VGG network that takes the left and right as inputs \cite{fischer_rt-gene_2018}. This approach considers large camera-to-user distances and high variations in head pose found in natural environments. This approach allows automatic annotation of subject's ground truth gaze and head pose regardless of large camera-user distances, achieving an error of 7.7$^{\circ}$. However, the approach setup requires additional devices such as mobile eye-tracking glasses (Kinect v2 RGB-D camera).
 
 \subsection{Hybrid Two-step Training}
-Deng and Zhu proposed a two-step training architecture, where a head CNN and eye CNN are independently trained and then together transformed with a "gaze transform layer" \cite{deng_monocular_2017}. The proposed model does not suffer from head-gaze correlation overfitting which makes it possible to use existing datasets for training. The solution achieves an error of 5.6\degree when trained with a large dataset, achieving state-of-the-art gaze tracking accuracy. 
+Deng and Zhu proposed a two-step training architecture, where a head CNN and eye CNN are independently trained and then together transformed with a "gaze transform layer" \cite{deng_monocular_2017}. The proposed model does not suffer from head-gaze correlation overfitting which makes it possible to use existing datasets for training. The solution achieves an error of 5.6$^{\circ}$ when trained with a large dataset, achieving state-of-the-art gaze tracking accuracy. 
 
 \section{Datasets}
 \label{state-art-datasets}
@@ -93,23 +93,40 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
 
 Until recently, datasets for Gaze-Estimation models training were built manually by taking pictures of different users' faces by placing their head firmly in a stand. Training models require multiple high-quality images, which makes the previous methods slow and not ideal.
 To improve the previous methods' problem, multiple data sets containing images for eye tracking have been compiled with crowd founding to train new models.
-\hyperref[Datasets]{Fig. 3} represents an overview of different state-of-the-art datasets.
+\hyperref[Datasets]{Fig. 3} represents an overview of different state-of-the-art datasets, while \hyperref[table:datasetcomparison]{Table 1.1} provides an analytical comparison of each of them.
 
 \subsection{GazeCapture}
-
-
-
 Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 subjects from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
 Additionally, the authors provide pre-trained models utilizing the dataset available as open source (\url{https://github.com/CSAILVision/GazeCapture}).
-\subsection{MMPIIGaze}
-Another state-of-the-art dataset that has been widely used is the MMPIIGaze dataset created by Zhang et al. \cite{GazeEstimationInTheWild}
 
+\subsection{MMPIIGaze}
+Another state-of-the-art dataset that has been widely used is the MMPIIGaze dataset created by Zhang et al. \cite{GazeEstimationInTheWild}.
+The dataset contains a total of 213,659 images from 15 participants. For each participant, there is a varied number of
+images ranging from 34,745 to 1,498. The dataset contains multiple features, our target being the 3D gaze target position related to camera.
+The dataset is taken from the participant's laptops, contrasting GazeCapture's images taken from mobile devices.
 
 \subsection{Columbia Eye Gaze / CAVE}
+The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different participants. For each participant, there are 5 head poses with 21 gaze directions per head pose. The authors describe the dataset as having more fixed gaze targets than other publicaly available gaze datasets. The participants are ethnically diverse and some of them are captured wearing glasses which makes this a strong candidate for learning. The dataset comes with already-segmented eye areas, so segmentation step can be skipped.
 
-\subsection{TabletGaze}
+\subsection{ETH-XGaze}
+Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,000 images of varying gaze under extreme head posers collected from 110 participants While the extreme varied head poses provide good opportunities for learning, for the case of this project the head poses that are not looking into the screen would not be useful so hey must be discarded.
 
 
+\begin{table}[ht]
+    \caption{Dataset comparison}
+    \centering
+    \begin{tabular}{c c c c c}
+    \hline\hline
+    Dataset & Samples \# & Type & Participants \# & Gaze Points \# \\ [0.5ex]
+        \hline
+            GazeCapture & 3 & 200 & 3 & 3 \\
+            MMPIIGaze & 3 & 200 & 3 & 3 \\
+            CAVE & 3 & 200 & 3 & 3 \\
+            ETHXGaze & 3 & 200 & 3 & 3 \\ [1ex]
+        \hline
+    \end{tabular}
+    \label{table:datasetcomparison}
+\end{table}
 \chapter{Evaluation}
 \label{Chap2}
 \lhead{Chapter 2. \emph{Evaluation}}
