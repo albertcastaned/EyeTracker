@@ -32,7 +32,7 @@ Gaze-Tracking with computer vision can be achieved with two different type of me
 
 \section{Model-based methods}
 Model-based methods, or sometimes referred to as feature-based methods, use the geometric form of the eyes to make the eye gaze prediction.
-As seen on \hyperref[GEClassification]{Fig. 1}, these can be interpreted as 3D models. Model-based 3D Gaze-Estimation
+As seen on \autoref{GEClassification}, these can be interpreted as 3D models. Model-based 3D Gaze-Estimation
 methods use 3D eyeball models and estimate the gaze direction using geometric eye features, such as the iris center and the eye corners \cite{general_theory_remote_gaze_3d_model}.
 
 Furthermore, most these methods require an infrared light source (IR) in order to create a refraction in the human eye which is then used to calculate the eye gaze direction by comparing the refraction position with the pupil position. The main drawback of model-based methods is that they can have a lower accuracy with low-resolution images and poor-condition lighting environments. Additionally, all of them have limited working distance.
@@ -65,7 +65,7 @@ After the previous proposal, Zhang et al. proposed a spatial weights CNN based o
 \subsection{iTracker}
 Kannan et al. proposed a CNN architecture for an iOS based Gaze-Tracking system called iTracker \cite{iTracker}. The model's large neural network was constructed with multiple smaller neural networks, with four total inputs: a right eye image, a left eye image, a face image, and a face-grid. The face-grid is a 25x25 binary grid that indicates where the user face is placed relatively to the camera view. 
 
-This model achieved 1.66 centimeter error with no calibration needed. The GazeCapture dataset which is described in \hyperref[state-art-datasets]{Section 1-E} was used to train this model.
+This model achieved 1.66 centimeter error with no calibration needed. The GazeCapture dataset which is described in \autoref{state-art-datasets} was used to train this model.
 
 While achieving good results, this model is biased with mobile usage which makes it unusable for laptop or computer desktop usage. Additionally, the authors describe there being room for improvement for better segmentation of eyes. However, by adjusting the model's face-grid dimensions to simulate webcam dimensions and with a different dataset, the model could potentially be used for desktop/laptop use.
 
@@ -91,12 +91,28 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
     \label{Datasets}
  \end{figure}
 
+ \begin{table}[h!]
+    \caption{Dataset comparison}
+    \centering
+    \label{tab:dataset}
+    \begin{tabular}{c c c c c c}
+    \hline\hline
+    Dataset & Samples \# & Size (GB) & Participants \# & Gaze Points \# \\
+    \hline\hline
+        GazeCapture & 2,500,000 & 136 & 1500 & 13 \\
+        MMPIIGaze & 213,659 & 2.1 & 15 & 20 \\
+        CAVE & 5,880 & 2.2 & 56 & 105 \\
+        ETHXGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
+    \hline
+    \end{tabular}
+\end{table}
+
 Until recently, datasets for Gaze-Estimation models training were built manually by taking pictures of different users' faces by placing their head firmly in a stand. Training models require multiple high-quality images, which makes the previous methods slow and not ideal.
 To improve the previous methods' problem, multiple data sets containing images for eye tracking have been compiled with crowd founding to train new models.
-\hyperref[Datasets]{Fig. 3} represents an overview of different state-of-the-art datasets, while \hyperref[table:datasetcomparison]{Table 1.1} provides an analytical comparison of each of them.
+\autoref{Datasets} represents an overview of different state-of-the-art datasets, while \autoref{tab:dataset} provides an analytical comparison of each of them.
 
 \subsection{GazeCapture}
-Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 subjects from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
+Krafka et al. built and released the GazeCapture dataset, which crowdfunded a mobile-based data set of approximately 1500 participants from a wide variety of backgrounds captured by an iOS application \cite{GazeCapture}. However, given that this dataset is built with mobile users, training with this dataset may lead to a huge bias towards mobile users which could lead to poor results with laptop or desktop use.
 Additionally, the authors provide pre-trained models utilizing the dataset available as open source (\url{https://github.com/CSAILVision/GazeCapture}).
 
 \subsection{MMPIIGaze}
@@ -112,21 +128,6 @@ The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different parti
 Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,000 images of varying gaze under extreme head posers collected from 110 participants While the extreme varied head poses provide good opportunities for learning, for the case of this project the head poses that are not looking into the screen would not be useful so hey must be discarded.
 
 
-\begin{table}[ht]
-    \caption{Dataset comparison}
-    \centering
-    \begin{tabular}{c c c c c}
-    \hline\hline
-    Dataset & Samples \# & Type & Participants \# & Gaze Points \# \\ [0.5ex]
-        \hline
-            GazeCapture & 3 & 200 & 3 & 3 \\
-            MMPIIGaze & 3 & 200 & 3 & 3 \\
-            CAVE & 3 & 200 & 3 & 3 \\
-            ETHXGaze & 3 & 200 & 3 & 3 \\ [1ex]
-        \hline
-    \end{tabular}
-    \label{table:datasetcomparison}
-\end{table}
 \chapter{Evaluation}
 \label{Chap2}
 \lhead{Chapter 2. \emph{Evaluation}}
