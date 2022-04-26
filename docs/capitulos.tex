@@ -1,6 +1,6 @@
 % Chapter 1
 
-\chapter{State-of-the-art}
+\chapter{Introducction}
 \label{Chap1}
 
 \lhead{Chapter 1. \emph{Introduction}}
@@ -22,7 +22,7 @@ Research in computer vision and Deep Learning have allowed improvement in Gaze-T
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.3]{img/figures/methods_classification.png}
+    \includegraphics[scale=0.6]{img/figures/methods_classification.png}
     \caption{Overview classification of Gaze-Tracking methods }
     \label{GEClassification}
  \end{figure}
@@ -53,8 +53,14 @@ Current state-of-the-art solutions have begun to adopt CNN based architectures, 
 
 Some of the drawbacks that appearance-based methods have been that they require more images for training than model-based methods, which are not easily retrieved. Additionally, since most appearance-based methods require deep-learning architectures such as Convolutional Neural Networks, they require higher computational power for training. Several works apply CNNs for gaze estimation, as they have shown to outperform traditional model-based approaches \cite{GazeEstimationInTheWild}.
 
-\section{Related Work}
+% Chapter 2
 
+\chapter{State-of-the-art}
+\label{Chap2}
+
+\lhead{Chapter 2. \emph{State-of-the-art}}
+
+\section{Related Work}
 
 \subsection{Multimodal Convolutional Neural Network}
 Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
@@ -128,6 +134,10 @@ The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different parti
 Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,000 images of varying gaze under extreme head posers collected from 110 participants While the extreme varied head poses provide good opportunities for learning, for the case of this project the head poses that are not looking into the screen would not be useful so hey must be discarded.
 
 
-\chapter{Evaluation}
-\label{Chap2}
-\lhead{Chapter 2. \emph{Evaluation}}
+\chapter{Development}
+\label{Chap3}
+\lhead{Chapter 3. \emph{Development}}
+
+\section{Evaluation}
+There are two commonly used metrics for performance evaluation in Gaze-Tracking Systems:
+Euclidean distance and the angular error.
