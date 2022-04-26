@@ -138,6 +138,20 @@ Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,0
 \label{Chap3}
 \lhead{Chapter 3. \emph{Development}}
 
-\section{Evaluation}
+\section{Evaluation Metrics}
 There are two commonly used metrics for performance evaluation in Gaze-Tracking Systems:
-Euclidean distance and the angular error.
+Euclidean distance and the angular error. Angular error is used when referring to 3D gaze estimation, while euclidean distance is used for 2D gaze estimation.
+
+Assuming the the gaze direction is \boldmath $g \in \mathbb{R}^3$, and the estimated gaze direction is
+\boldmath $\hat{g}  \in \mathbb{R}^3$, the angular error can be calculated with the formula:
+
+\begin{equation} \iota _{angular} = \frac{g \cdot  \hat{g} }{ \|g\|\|\hat{g}\| } \end{equation}
+
+For 2D gaze estimation, the actual gaze position is denoted as 
+\boldmath $p \in \mathbb{R}^2$ while the estimated gaze position as
+\boldmath $\hat{g} \in \mathbb{R}^2$. This would result in the following formula:
+
+\begin{equation} \iota _{Euclidean} = \| p - \hat{p} \|  \end{equation}
+
+For the purpose of this research, given that the gaze prediction desired is of the screen coordinates that the user is looking at, euclidean distance will be used
+as a performance evaluation metric for the proposed model's 2D gaze estimation.
