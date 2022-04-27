@@ -1,6 +1,6 @@
 % Chapter 1
 
-\chapter{Introducction}
+\chapter{Introduction}
 \label{Chap1}
 
 \lhead{Chapter 1. \emph{Introduction}}
@@ -35,7 +35,7 @@ Model-based methods, or sometimes referred to as feature-based methods, use the 
 As seen on \autoref{GEClassification}, these can be interpreted as 3D models. Model-based 3D Gaze-Estimation
 methods use 3D eyeball models and estimate the gaze direction using geometric eye features, such as the iris center and the eye corners \cite{general_theory_remote_gaze_3d_model}.
 
-Furthermore, most these methods require an infrared light source (IR) in order to create a refraction in the human eye which is then used to calculate the eye gaze direction by comparing the refraction position with the pupil position. The main drawback of model-based methods is that they can have a lower accuracy with low-resolution images and poor-condition lighting environments. Additionally, all of them have limited working distance.
+Furthermore, most these methods require an infrared light source (IR) in order to create a refraction in the human eye which is then used to calculate the eye gaze direction by comparing the refraction position with the pupil position. The main drawback of model-based methods is that they can have a lower accuracy with low-resolution images and poor-condition lighting environments. Additionally, all of them have limited working distance.1
 
 Some state-of-the-art commercial products that have adapted these techniques are Tobii Eye Tracker (\url{https://www.tobii.com/}), Eye Tribe (\url{https://imotions.com/hardware/the-eye-tribe-tracker/}) and EyeSee (\url{https://eyesee-research.com/}). 
 While these products allow very accurate predictions for the Eye Tracking, they suffer from the previously mentioned model based methods disadvantages while also requiring users to purchase additional expensive equipment. Most Eye-Tracking products also require wearable glasses peripherals that can be intrusive for daily usage. 
@@ -62,6 +62,13 @@ Some of the drawbacks that appearance-based methods have been that they require 
 
 \section{Related Work}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=9cm]{img/figures/gaze-architectures.png}
+    \caption{Generalized architectures of state-of-the-art models}
+    \label{architectures_comparison}
+ \end{figure}
+
 \subsection{Multimodal Convolutional Neural Network}
 Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
 
@@ -76,7 +83,7 @@ This model achieved 1.66 centimeter error with no calibration needed. The GazeCa
 While achieving good results, this model is biased with mobile usage which makes it unusable for laptop or computer desktop usage. Additionally, the authors describe there being room for improvement for better segmentation of eyes. However, by adjusting the model's face-grid dimensions to simulate webcam dimensions and with a different dataset, the model could potentially be used for desktop/laptop use.
 
 \subsection{Geometric \& Texture-based Networks}
-Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye, similarly to iTracker \cite{deng_monocular_2017}.
+Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye \cite{jyoti_automatic_2018}.
 A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22$^{\circ}$. Additionally, the authors emphasize on the importance of choosing
 different activation functions for different results by comparing the model outcome with ReLU vs Swish, where the former achieved better performance for geometric network while Swish showed better performance on the rest.
 
@@ -108,7 +115,7 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
         GazeCapture & 2,500,000 & 136 & 1500 & 13 \\
         MMPIIGaze & 213,659 & 2.1 & 15 & 20 \\
         CAVE & 5,880 & 2.2 & 56 & 105 \\
-        ETHXGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
+        ETH-XGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
     \hline
     \end{tabular}
 \end{table}
@@ -128,21 +135,34 @@ images ranging from 34,745 to 1,498. The dataset contains multiple features, our
 The dataset is taken from the participant's laptops, contrasting GazeCapture's images taken from mobile devices.
 
 \subsection{Columbia Eye Gaze / CAVE}
-The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different participants. For each participant, there are 5 head poses with 21 gaze directions per head pose. The authors describe the dataset as having more fixed gaze targets than other publicaly available gaze datasets. The participants are ethnically diverse and some of them are captured wearing glasses which makes this a strong candidate for learning. The dataset comes with already-segmented eye areas, so segmentation step can be skipped.
+The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different participants. For each participant, there are 5 head poses with 21 gaze directions per head pose. The authors describe the dataset as having more fixed gaze targets than other publicly available gaze datasets. The participants are ethnically diverse and some of them are captured wearing glasses which makes this a strong candidate for learning. The dataset comes with already-segmented eye areas, so segmentation step can be skipped.
 
 \subsection{ETH-XGaze}
 Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,000 images of varying gaze under extreme head posers collected from 110 participants While the extreme varied head poses provide good opportunities for learning, for the case of this project the head poses that are not looking into the screen would not be useful so hey must be discarded.
 
+\subsection{Discussion}
+As seen on \autoref{tab:dataset}, the dataset with the biggest scale is ETH-XGaze, having the biggest samples and gaze points available. 
+While training with the ETH-XGaze dataset would create the biggest model, the huge size of its collection of images might require high computational
+power and training time in order to fully train the model. While GazeCapture is also a great candidate, its small number of gaze points 
+is insufficient for the purpose of gaze-estimation in a computer screen.
 
 \chapter{Development}
 \label{Chap3}
 \lhead{Chapter 3. \emph{Development}}
 
+
+\section{Objectives}
+For this research, a new proposed model for Gaze-Estimation that outperforms current state-of-the art systems is 
+the goal. To fully realize this, the model must have lower accuracy and higher speed.
+Accuracy can be determined with evaluation metrics described in \autoref{EvaluationMetrics}, while the speed of the model
+must be fast enough in order to potentially use this gaze-estimation system in real-time on the average user computer.
+
 \section{Evaluation Metrics}
+\label{EvaluationMetrics}
 There are two commonly used metrics for performance evaluation in Gaze-Tracking Systems:
 Euclidean distance and the angular error. Angular error is used when referring to 3D gaze estimation, while euclidean distance is used for 2D gaze estimation.
 
-Assuming the the gaze direction is \boldmath $g \in \mathbb{R}^3$, and the estimated gaze direction is
+Assuming the gaze direction is \boldmath $g \in \mathbb{R}^3$, and the estimated gaze direction is
 \boldmath $\hat{g}  \in \mathbb{R}^3$, the angular error can be calculated with the formula:
 
 \begin{equation} \iota _{angular} = \frac{g \cdot  \hat{g} }{ \|g\|\|\hat{g}\| } \end{equation}
@@ -155,3 +175,16 @@ For 2D gaze estimation, the actual gaze position is denoted as
 
 For the purpose of this research, given that the gaze prediction desired is of the screen coordinates that the user is looking at, euclidean distance will be used
 as a performance evaluation metric for the proposed model's 2D gaze estimation.
+
+\section{Proposed Architecture}
+
+\section{Training}
+
+\chapter{Results}
+\label{Chap4}
+\lhead{Chapter 4. \emph{Results}}
+
+
+\chapter{Conclusion}
+\label{Chap5}
+\lhead{Chapter 5. \emph{Conclusion}}
