@@ -7,7 +7,7 @@
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=5cm]{img/figures/gaze_estimation_setup.png}
-    \caption{Overview of Gaze-Estimation setups. Recovered from \cite{survey_automatic_gaze_ghosh}}
+    \caption[Overview of Gaze-Estimation setups]{Overview of Gaze-Estimation setups. Recovered from \cite{survey_automatic_gaze_ghosh}}
     \label{gaze_estimation_setup}
  \end{figure}
 
@@ -70,19 +70,17 @@ Some of the drawbacks that appearance-based methods have been that they require 
  \end{figure}
 
  \begin{table}[h!]
-    \caption{State-of-the-art architecture comparison}
+    \caption[2D Gaze-Estimation Benchmark of state-of-the-art]{2D Gaze-Estimation Benchmark of state-of-the-art}
     \centering
     \label{tab:architectures}
-    \begin{tabular}{c c c c c c}
-    \hline\hline
-    Name & Datasets used \# & Angular Error & Euclidean Error & Year & Reference \# \\
-    \hline\hline
-        GazeCapture & 2,500,000 & 136 & 1500 & 13 \\
-        MMPIIGaze & 213,659 & 2.1 & 15 & 20 \\
-        CAVE & 5,880 & 2.2 & 56 & 105 \\
-        ETH-XGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
-    \hline
-    \end{tabular}
+    \begin{tabulary}{\textwidth}{CCCCCC}
+        \hline
+        \backslashbox{Models}{Datasets} & MPIIGaze & EyeDiap & GazeCapture\\\hline\hline
+        Multimodal Convolutional Neural Network & 13.9 $^{\circ}$ & 10.5 $^{\circ}$ & N/A \\\hline
+        iTracker & 7.67 cm & 10.13 cm & 2.81 cm \\\hline
+        RT-Gene & 5.36 cm & 7.19 cm & N/A \\\hline
+        Spatial Weights & 4.2 cm & 8.56 cm & N/A \\\hline
+        \end{tabulary}
 \end{table}
 
 \subsection{Multimodal Convolutional Neural Network}
@@ -116,7 +114,7 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=4cm]{img/figures/datasets.png}
-    \caption{Samples from different datasets. Recovered from \cite{GazeCapture}, \cite{GazeEstimationInTheWild}, \cite{CAVE_0324} and \cite{Zhang2020ETHXGaze} respectively. }
+    \caption[Samples from different datasets]{Samples from different datasets. Recovered from \cite{GazeCapture}, \cite{GazeEstimationInTheWild}, \cite{CAVE_0324} and \cite{Zhang2020ETHXGaze} respectively. }
     \label{Datasets}
  \end{figure}
 
@@ -126,15 +124,17 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
     \label{tab:dataset}
     \begin{tabulary}{\textwidth}{LCCCCCCCC}
         \hline
-        Dataset & Total Images \# & Size (GB) & Subjects \# & Gaze Points \# & Full Face & 2D Gaze & 3D Gaze & Ref \\
+        Dataset & Total \# & Size & Subjects \# & Gaze Points \# & Full Face & 2D Gaze & 3D Gaze & Ref \\
         \hline
-        GazeCapture 2016 & 2.4M & 136 & 1,474 & 203 & \cmark & \cmark & \xmark & \cite{GazeCapture} \\
+        GazeCapture 2016 images & 2.4M & 136 GB & 1,474 & 203 & \cmark & \cmark & \xmark & \cite{GazeCapture} \\
         \hline
-        MPIIGaze 2015 & 213K & 2.1 & 15 & 203 & \xmark & \cmark & \cmark & \cite{GazeEstimationInTheWild} \\
+        MPIIGaze 2015 images & 213K & 2.1 GB & 15 & 203 & \xmark & \cmark & \cmark & \cite{GazeEstimationInTheWild} \\
         \hline
-        CAVE 2013 & 6K & 2.2 & 56 & 105 & \cmark & \xmark & \cmark & \cite{CAVE_0324} \\
+        CAVE 2013 & 6K images & 2.2 GB & 56 & 105 & \cmark & \xmark & \cmark & \cite{CAVE_0324} \\
         \hline
-        ETH-XGaze 2020 & 1.1M & 123 & 110 & 600 & \cmark & \cmark & \cmark & \cite{Zhang2020ETHXGaze} \\
+        EyeDiap 2014 & 94 videos & 11.6 TB & 16 & 105 & \cmark & \cmark & \cmark & \cite{CAVE_0324} \\
+        \hline
+        ETH-XGaze 2020 & 1.1M & 130 GB & 110 & N/A & \cmark & \cmark & \cmark & \cite{Zhang2020ETHXGaze} \\
         \hline
         \end{tabulary}
 \end{table}
@@ -156,8 +156,15 @@ The dataset is taken from the participant's laptops, contrasting GazeCapture's i
 \subsection{Columbia Eye Gaze / CAVE}
 The CAVE dataset \cite{CAVE_0324} consists of 5,880 images of 56 different participants. For each participant, there are 5 head poses with 21 gaze directions per head pose. The authors describe the dataset as having more fixed gaze targets than other publicly available gaze datasets. The participants are ethnically diverse and some of them are captured wearing glasses which makes this a strong candidate for learning. The dataset comes with already-segmented eye areas, so segmentation step can be skipped.
 
+\subsection{EyeDiap}
+The EYEDIAP dataset was designed to train and evaluate gaze estimation algorithms from RGB and RGB-D data. By using videos instead of pictures,
+it manages to be the biggest sized dataset of the state-of-the-art. Additionally, the recording methodology used is designed to systematically include, and isolate,
+most of the variables which affect gaze estimation algorithms: head pose and lightning variations.
+
 \subsection{ETH-XGaze}
 Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,000 images of varying gaze under extreme head posers collected from 110 participants While the extreme varied head poses provide good opportunities for learning, for the case of this project the head poses that are not looking into the screen would not be useful so hey must be discarded.
+
+
 
 \subsection{Discussion}
 As seen on \autoref{tab:dataset}, the dataset with the biggest scale is ETH-XGaze, having the biggest samples and gaze points available. 
