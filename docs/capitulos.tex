@@ -69,6 +69,22 @@ Some of the drawbacks that appearance-based methods have been that they require 
     \label{architectures_comparison}
  \end{figure}
 
+ \begin{table}[h!]
+    \caption{State-of-the-art architecture comparison}
+    \centering
+    \label{tab:architectures}
+    \begin{tabular}{c c c c c c}
+    \hline\hline
+    Name & Datasets used \# & Angular Error & Euclidean Error & Year & Reference \# \\
+    \hline\hline
+        GazeCapture & 2,500,000 & 136 & 1500 & 13 \\
+        MMPIIGaze & 213,659 & 2.1 & 15 & 20 \\
+        CAVE & 5,880 & 2.2 & 56 & 105 \\
+        ETH-XGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
+    \hline
+    \end{tabular}
+\end{table}
+
 \subsection{Multimodal Convolutional Neural Network}
 Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
 
@@ -108,16 +124,19 @@ Deng and Zhu proposed a two-step training architecture, where a head CNN and eye
     \caption{Dataset comparison}
     \centering
     \label{tab:dataset}
-    \begin{tabular}{c c c c c c}
-    \hline\hline
-    Dataset & Samples \# & Size (GB) & Participants \# & Gaze Points \# \\
-    \hline\hline
-        GazeCapture & 2,500,000 & 136 & 1500 & 13 \\
-        MMPIIGaze & 213,659 & 2.1 & 15 & 20 \\
-        CAVE & 5,880 & 2.2 & 56 & 105 \\
-        ETH-XGaze & 1,083,492 & 123 & 110 & 600 \\ [1ex]
-    \hline
-    \end{tabular}
+    \begin{tabulary}{\textwidth}{LCCCCCCCC}
+        \hline
+        Dataset & Total Images \# & Size (GB) & Subjects \# & Gaze Points \# & Full Face & 2D Gaze & 3D Gaze & Ref \\
+        \hline
+        GazeCapture 2016 & 2.4M & 136 & 1,474 & 203 & \cmark & \cmark & \xmark & \cite{GazeCapture} \\
+        \hline
+        MPIIGaze 2015 & 213K & 2.1 & 15 & 203 & \xmark & \cmark & \cmark & \cite{GazeEstimationInTheWild} \\
+        \hline
+        CAVE 2013 & 6K & 2.2 & 56 & 105 & \cmark & \xmark & \cmark & \cite{CAVE_0324} \\
+        \hline
+        ETH-XGaze 2020 & 1.1M & 123 & 110 & 600 & \cmark & \cmark & \cmark & \cite{Zhang2020ETHXGaze} \\
+        \hline
+        \end{tabulary}
 \end{table}
 
 Until recently, datasets for Gaze-Estimation models training were built manually by taking pictures of different users' faces by placing their head firmly in a stand. Training models require multiple high-quality images, which makes the previous methods slow and not ideal.
