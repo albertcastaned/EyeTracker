@@ -1,0 +1,7 @@
+Model,Time
+googlenet,3609.71
+lenet,276.64
+googlenet_pretrained,1882.99
+resnet_34,1583.2
+resnet_50,2278.92
+resnet_18,1829.26

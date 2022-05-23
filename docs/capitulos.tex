@@ -60,53 +60,6 @@ Some of the drawbacks that appearance-based methods have been that they require 
 
 \lhead{Chapter 2. \emph{State-of-the-art}}
 
-\section{Related Work}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth,height=9cm]{img/figures/gaze-architectures.png}
-    \caption{Generalized architectures of state-of-the-art models}
-    \label{architectures_comparison}
- \end{figure}
-
- \begin{table}[h!]
-    \caption[2D Gaze-Estimation Benchmark of state-of-the-art]{2D Gaze-Estimation Benchmark of state-of-the-art}
-    \centering
-    \label{tab:architectures}
-    \begin{tabulary}{\textwidth}{CCCCCC}
-        \hline
-        \backslashbox{Models}{Datasets} & MPIIGaze & EyeDiap & GazeCapture\\\hline\hline
-        Multimodal Convolutional Neural Network & 13.9 $^{\circ}$ & 10.5 $^{\circ}$ & N/A \\\hline
-        iTracker & 7.67 cm & 10.13 cm & 2.81 cm \\\hline
-        RT-Gene & 5.36 cm & 7.19 cm & N/A \\\hline
-        Spatial Weights & 4.2 cm & 8.56 cm & N/A \\\hline
-        \end{tabulary}
-\end{table}
-
-\subsection{Multimodal Convolutional Neural Network}
-Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
-
-\subsection{Spatial Weight CNN}
-After the previous proposal, Zhang et al. proposed a spatial weights CNN based on the AlexNet architecture \cite{alex_net} that takes the full face image as input \cite{written_all_over_your_face}. The spatial weights classify the importance of different facial areas in order to perform the Gaze-Estimation. This mechanism includes three additional 1 x 1 convolutional layer followed by a ReLU activation. Compared to other approaches only use eye regions, this method was demonstrated to be more robust against appearance variation such as head pose as well as illumination. The results achieved an error of ~4.8-6.0$^{\circ}$.
-
-\subsection{iTracker}
-Kannan et al. proposed a CNN architecture for an iOS based Gaze-Tracking system called iTracker \cite{iTracker}. The model's large neural network was constructed with multiple smaller neural networks, with four total inputs: a right eye image, a left eye image, a face image, and a face-grid. The face-grid is a 25x25 binary grid that indicates where the user face is placed relatively to the camera view. 
-
-This model achieved 1.66 centimeter error with no calibration needed. The GazeCapture dataset which is described in \autoref{state-art-datasets} was used to train this model.
-
-While achieving good results, this model is biased with mobile usage which makes it unusable for laptop or computer desktop usage. Additionally, the authors describe there being room for improvement for better segmentation of eyes. However, by adjusting the model's face-grid dimensions to simulate webcam dimensions and with a different dataset, the model could potentially be used for desktop/laptop use.
-
-\subsection{Geometric \& Texture-based Networks}
-Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye \cite{jyoti_automatic_2018}.
-A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22$^{\circ}$. Additionally, the authors emphasize on the importance of choosing
-different activation functions for different results by comparing the model outcome with ReLU vs Swish, where the former achieved better performance for geometric network while Swish showed better performance on the rest.
-
-\subsection{RT-GENE}
-Fischer et al. proposed a two-stream VGG network that takes the left and right as inputs \cite{fischer_rt-gene_2018}. This approach considers large camera-to-user distances and high variations in head pose found in natural environments. This approach allows automatic annotation of subject's ground truth gaze and head pose regardless of large camera-user distances, achieving an error of 7.7$^{\circ}$. However, the approach setup requires additional devices such as mobile eye-tracking glasses (Kinect v2 RGB-D camera).
-
-\subsection{Hybrid Two-step Training}
-Deng and Zhu proposed a two-step training architecture, where a head CNN and eye CNN are independently trained and then together transformed with a "gaze transform layer" \cite{deng_monocular_2017}. The proposed model does not suffer from head-gaze correlation overfitting which makes it possible to use existing datasets for training. The solution achieves an error of 5.6$^{\circ}$ when trained with a large dataset, achieving state-of-the-art gaze tracking accuracy. 
-
 \section{Datasets}
 \label{state-art-datasets}
 
@@ -167,10 +120,66 @@ Finally, the ETH-XGaze dataset \cite{Zhang2020ETHXGaze} consists of over 1,000,0
 
 
 \subsection{Discussion}
-As seen on \autoref{tab:dataset}, the dataset with the biggest scale is ETH-XGaze, having the biggest samples and gaze points available. 
-While training with the ETH-XGaze dataset would create the biggest model, the huge size of its collection of images might require high computational
+As seen on \autoref{tab:dataset}, the dataset with the biggest scale is EyeDiap, by having terabytes of videos with distinct frames of information.
+While training with the EyeDiap dataset would create the biggest trained model, the huge size of its collection of frames in the videos would require high computational
 power and training time in order to fully train the model. While GazeCapture is also a great candidate, its small number of gaze points 
 is insufficient for the purpose of gaze-estimation in a computer screen.
+
+
+\section{Related Work}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=9cm]{img/figures/gaze-architectures.png}
+    \caption{Generalized architectures of state-of-the-art models}
+    \label{architectures_comparison}
+ \end{figure}
+
+ \begin{table}[h!]
+    \caption[2D (cm) and 3D ($^{\circ}$) Gaze-Estimation Benchmark of State-of-the-Art]{2D (cm) and 3D ($^{\circ}$) Gaze-Estimation Benchmark of State-of-the-Art}
+    \centering
+    \label{tab:architectures}
+    \begin{tabulary}{\textwidth}{CCCCCCCCC}
+        \hline
+        \backslashbox{Models}{Datasets} & MPIIGaze & EyeDiap & GazeCapture (Tablet) & GazeCapture (Phone) & CAVE \\\hline\hline
+        Multimodal Convolutional Neural Network & 13.9 $^{\circ}$ & 10.5 $^{\circ}$ & N/A & N/A & N/A \\\hline
+        iTracker & 7.67 cm & 10.13 cm & 2.81 cm & 1.86 cm & N/A & \\\hline
+        RT-Gene & 5.36 cm & 7.19 cm & N/A & N/A & N/A \\\hline
+        Spatial Weights & 4.2 cm & 8.56 cm & N/A & N/A & N/A\\\hline
+        Geometric \& Texture-based Networks & N/A & N/A & N/A & N/A & 2.22 $^{\circ}$ \\\hline
+        \end{tabulary}
+\end{table}
+
+\subsection{Multimodal Convolutional Neural Network}
+Zhang et al. proposed a six-layered CNN based on LeNet that takes the eye image as input and combines the head pose in the last fully connected layer of the network \cite{GazeEstimationInTheWild}. The results demonstrated a large performance gap between person-specific training results (RF model) with the proposed CNN model and revealed the potential of appearance-based gaze estimation.
+
+\subsection{Spatial Weight CNN}
+After the previous proposal, Zhang et al. proposed a spatial weights CNN based on the AlexNet architecture \cite{alex_net} that takes the full face image as input \cite{written_all_over_your_face}. The spatial weights classify the importance of different facial areas in order to perform the Gaze-Estimation. This mechanism includes three additional 1 x 1 convolutional layer followed by a ReLU activation. Compared to other approaches only use eye regions, this method was demonstrated to be more robust against appearance variation such as head pose as well as illumination. The results achieved an error of ~4.8-6.0$^{\circ}$.
+
+\subsection{iTracker}
+Kannan et al. proposed a CNN architecture for an iOS based Gaze-Tracking system called iTracker \cite{iTracker}. The model's large neural network was constructed with multiple smaller neural networks, with four total inputs: a right eye image, a left eye image, a face image, and a face-grid. The face-grid is a 25x25 binary grid that indicates where the user face is placed relatively to the camera view. 
+
+This model achieved 1.66 centimeter error with no calibration needed. The GazeCapture dataset which is described in \autoref{state-art-datasets} was used to train this model.
+
+While achieving good results, this model is biased with mobile usage which makes it unusable for laptop or computer desktop usage. Additionally, the authors describe there being room for improvement for better segmentation of eyes. However, by adjusting the model's face-grid dimensions to simulate webcam dimensions and with a different dataset, the model could potentially be used for desktop/laptop use.
+
+\subsection{Geometric \& Texture-based Networks}
+Jyoti et al. proposed an ensemble of networks that uses the full face, left and right eye \cite{jyoti_automatic_2018}.
+A Deep Neural Network (DNN) is trained using the face geometric features. Secondly, three CNNs are trained for the texture based features i.e. the segment of the left eye, right eye, and the combined eyes. The model was trained with the publicly available Columbia Eye Gaze and TabletGaze datasets for experiments. When trained with the Columbia Eye Gaza dataset, experiments resulted in an error of 2.22$^{\circ}$. Additionally, the authors emphasize on the importance of choosing
+different activation functions for different results by comparing the model outcome with ReLU vs Swish, where the former achieved better performance for geometric network while Swish showed better performance on the rest.
+
+\subsection{RT-GENE}
+Fischer et al. proposed a two-stream VGG network that takes the left and right as inputs \cite{fischer_rt-gene_2018}. This approach considers large camera-to-user distances and high variations in head pose found in natural environments. This approach allows automatic annotation of subject's ground truth gaze and head pose regardless of large camera-user distances, achieving an error of 7.7$^{\circ}$. However, the approach setup requires additional devices such as mobile eye-tracking glasses (Kinect v2 RGB-D camera).
+
+\subsection{Discussion}
+As seen on \autoref{tab:architectures}, iTracker outperforms every other 2D estimation modeLs when using phone/tablet based datasets. However, when using regular datasets
+ taken from computer dimensions, the performance of iTracker drastically becomes lower. On the other hand, Geometric \& Texture-based
+networks has the best performance on 3D gaze estimation. 
+
+Many approaches similar to Multimodal Convolutional Networks have been proposed, using different general architectures such as Lenet, Resnet, and others. However,
+as of the date of writing this paper, the application of GoogleNet for Gaze-Estimation models have not been proposed. GoogleNet is a deep convolutional
+neural network architecture developed by Szegedy et al. in 2014 \cite{going_deeper_googlenet}. GoogleNet has shown to outperform traditional deep convolutional neural networks such as LeNet.
+Having a history of outperforming these traditional methods, in this project a GoogleNet model approach for Gaze-Estimation is proposed as a potential alternative to state-of-the-art systems.
 
 \chapter{Development}
 \label{Chap3}
@@ -178,10 +187,11 @@ is insufficient for the purpose of gaze-estimation in a computer screen.
 
 
 \section{Objectives}
-For this research, a new proposed model for Gaze-Estimation that outperforms current state-of-the art systems is 
-the goal. To fully realize this, the model must have lower accuracy and higher speed.
+For this research, the goal is to design and train new models for Gaze-Estimation that outperform current state-of-the art systems. 
 Accuracy can be determined with evaluation metrics described in \autoref{EvaluationMetrics}, while the speed of the model
-must be fast enough in order to potentially use this gaze-estimation system in real-time on the average user computer.
+must be fast enough in order to potentially use this gaze-estimation system in real-time on the average user computer. The
+models must be able to query predictions from a standard desktop computer and laptop webcam while handling the possible variance in head pose
+and lightning conditions.
 
 \section{Evaluation Metrics}
 \label{EvaluationMetrics}
@@ -198,13 +208,76 @@ For 2D gaze estimation, the actual gaze position is denoted as
 \boldmath $\hat{g} \in \mathbb{R}^2$. This would result in the following formula:
 
 \begin{equation} \iota _{Euclidean} = \| p - \hat{p} \|  \end{equation}
+For the purpose of this research, the models will use 3D angular error for their predictions.
 
-For the purpose of this research, given that the gaze prediction desired is of the screen coordinates that the user is looking at, euclidean distance will be used
-as a performance evaluation metric for the proposed model's 2D gaze estimation.
+\section{Proposed Models}
+\label{proposed-models}
+Given that multiple models are being used for benchmarking and comparison, the following models will be trained:
 
-\section{Proposed Architecture}
+\begin{itemize}
+    \item LeNet [Scratch]
+    \item GoogleNet (Inception V3) [Scratch]
+    \item GoogleNet (Inception V3) [Pre-Trained]
+    \item Resnet-18 [Pre-Trained]
+    \item Resnet-34 [Pre-Trained]
+    \item Resnet-50 [Pre-Trained]
+\end{itemize}
+Pre-trained models are also taken into account, since the trade-offs between
+training time and accuracy can be analyzed. Pre-trained models are modified so its final classifier layer (usually a fully connected layer or FC) 
+is modified for the context of the problem. In this case, the 3D gaze estimation would require an output of two dimensions. Additionally, 
+a new convolutional layer can be added to the beginning of the model in order to handle different input sizes that the pre-trained model.
+
+\section{Framework}
+In order to build and train the previously proposed models, the PyTorch framework (\url{https://pytorch.org/}) will be used due to its simplicity and flexibility. Additionally, PyTorch 
+provides multiple pre-trained models that can be used for transfer learning, including some models proposed in \autoref{proposed-models}. Results will be stored with the Tensorboard
+library (\url{https://www.tensorflow.org/tensorboard}) and converted to figures with the Matplotlib and Seaborn libraries.
+
+Given the time constraints of this project, an existing PyTorch implementation of Gaze Estimation was chosen and extended for this project. The project was developed by GitHub user
+"Hysts" in 2018, and is available as open source (\url{https://github.com/hysts/pytorch_mpiigaze}. The repository includes scripts, processes, and tools to train different models  
+with configuration files. By default, the available datasets in this repository are MPIIGaze and MPIIFaceGaze, the latter being a modified version of MPIIGaze which was described in 
+\autoref{Datasets}. Additional models will be added to the repository, as well as some additional code changes such as the implementation of One Cycle scheduler, which will be described in 
+\autoref{one-cycle}. The altered version of the repository, or the fork, can be found in the following repository: \url{https://github.com/albertcastaned/pytorch_mpiigaze}. 
+
+The training will be accomplished using an NVIDIA 1060 GTX 3GB GPU, and a AMD Ryzen 5 1600 Six-Core Processor. For faster training, CUDA is configured to use the GPU as the training device.
+
+\section{Dataset preprocessing}
+For demonstration purposes, the small sized MPIIGaze dataset will be used for the training of this project's models. As with other Gaze-Estimation datasets, it contains multiple images of the user's
+eyes which must be transformed to serve as the input of the models.
 
 \section{Training}
+The training of the proposed models will be of a total of 15 epochs or cycles. After each epoch is complete, the training time, accuracy (angular error), loss value, and  
+current learning rate will be simultaneously displayed on the terminal and saved as Tensorboard metrics. 
+
+As mentioned on previous sections, some models are pre-trained with just the classifier layer replaced. By doing this, faster training times and better performance are expected from these models,
+
+To handle potential GPU or CPU crashes or application-level errors during training, checkpoints are set to be saved periodically in case there is need for reloading.   
+
+\subsection{One Cycle Learning Rate}
+\label{one-cycle}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=5cm]{img/figures/one-cycle.png}
+    \caption[One Cycle Learning Rate]{One Cycle Learning Rate. Recovered from \cite{OneCycleFigure}. }
+    \label{SampleOneCycle}
+ \end{figure}
+
+To further optimize the training of the models and get overall better performance, One Cycle Learning Rate for "super-convergence" 
+described by Leslie Smith et al. in 2017 \cite{OneCycle}. The learning rate of the training increases until it reaches
+a specified percentage of completion (PoC) and starts decreasing at the same rate until it completes another cycle of length
+PoC.
+
+While PyTorch supports One Cycle scheduler for training, the original code retrieved supported default schedulers which requires
+additional code for One Cycle scheduler support.
+
+By default, all models were set to have a PoC of 0.3 or 30\% of completion percentage. The behavior of the change in learning rate
+is represented by Figure. TODO ADD .
+
+\section{Saving the model}
+Once the training has been completed, the models will be saved as .h5 files so that they can be transferred for further learning,
+and to use it with a demonstration application by using OpenCV. As a result, the model will predict the angular gaze
+of the user, while the OpenCV program will query them at constant intervals of time and displaying this 3D angle on screen.
 
 \chapter{Results}
 \label{Chap4}
